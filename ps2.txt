@@ -1,6 +1,6 @@
 ///***-------------Problem Scenario_2----------------------***///
 
-Ques) What is the number of consumers for the branch?
+Ques) What is the number of consumers for the branch_2?
 
 //*---------------Queries without Table Creation----------------*//
 
