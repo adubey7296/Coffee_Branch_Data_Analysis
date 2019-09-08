@@ -1,0 +1,21 @@
+///***---------------Problem Scenario_3----------------***///
+
+Ques) What is the most consumed beverage on Branch1?
+
+>>>>	select beverage,sum(totalcount) totcount from Branch1Constotcount group by beverage order by totcount desc limit 1;
+
+
+
+
+
+///***----------------Problem Scenario_4-------------------***///
+
+Ques) What are the beverages available on Branch10, Branch8, and Branch1?
+
+>>>>	Create table if not exists BRANCH10BRANCH8BRANCH1beverage as select beverage,branch from 
+	
+	(select * from BevbranchA where branch = 'BRANCH10' or branch = 'BRANCH8' or branch = 'BRANCH1' union all select * from BevbranchB 
+	
+	where branch = 'BRANCH10' or branch = 'BRANCH8' or branch = 'BRANCH1' union all select * from BevbranchC where branch = 'BRANCH10' 
+	
+	or branch = 'BRANCH8' or branch = 'BRANCH1' )unionResult ;

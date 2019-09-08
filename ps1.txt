@@ -1,0 +1,49 @@
+///***---------------Problem Scenario_1-------------------***///
+
+Ques) What is the total number of consumers for Branch_1?
+
+//*---------(TYPE-1)Creating single table with sub queries(confusing T-T(ignore))-----------*// 
+
+>>>>> 	create table if not exists Branch1Constotcount as select beverage,totalcount from (select BevcountA.beverage,sum(BevcountA.count) 
+	
+	totalcount from (select beverage,branch from (select * from BevbranchA where branch='BRANCH1' union all 
+	
+	select * from  BevbranchB where branch='BRANCH1' union all select * from BevbranchC where  branch='BRANCH1')unionResult)
+	
+	a join BevcountA on(a.beverage=BevcountA.beverage) group by  BevcountA.beverage 
+
+	union all select BevcountB.beverage,sum(BevcountB.count) totalcount from 
+
+	(select beverage,branch from (select * from BevbranchA where branch='BRANCH1' union all 
+	
+	select * from BevbranchB where branch='BRANCH1' union all select * from BevbranchC where branch='BRANCH1')unionResult)
+	
+	b join  BevcountB on(b.beverage=BevcountB.beverage) group by BevcountB.beverage
+	
+	union all select BevcountC.beverage,sum(BevcountC.count) totalcount from ( select beverage,branch from 
+	
+	(select * from BevbranchA where branch='BRANCH1' union all select * from BevbranchB where  branch='BRANCH1' union all 
+
+	select * from BevbranchC where branch='BRANCH1')unionResult )c join  BevcountC on(c.beverage=BevcountC.beverage) group by BevcountC.beverage)unionResult;
+
+
+>>>>>	SELECT SUM(totalcount) from Branch1Constotcount;
+
+
+//*---------------(TYPE-2)Creating multiple tables(simple)--------------*//4
+
+>>>>	create table if not exists BRANCH1Branch as select * from BevbranchA where branch = 'BRANCH1';
+
+>>>>	insert into table BRANCH1Branch select * from BevbranchB where branch = 'BRANCH1';
+
+>>>>	insert into table BRANCH1Branch select * from BevbranchC where branch = 'BRANCH1';
+
+>>>>	create table if not exists BRANCH1branchcount(beverage string, count int);
+
+>>>> 	insert into table BRANCH1branchcount select BevcountA.beverage,sum(BevcountA.count) from BRANCH1Branch join BevcountA on(BRANCH1Branch.beverage = BevcountA.beverage ) group by BevcountA.beverage ; 
+
+>>>> 	insert into table BRANCH1branchcount select BevcountB.beverage,sum(BevcountB.count) from BRANCH1Branch join BevcountB on(BRANCH1Branch.beverage = BevcountB.beverage ) group by BevcountB.beverage ; 
+
+>>>> 	insert into table BRANCH1branchcount select BevcountC.beverage,sum(BevcountC.count) from BRANCH1Branch join BevcountC on(BRANCH1Branch.beverage = BevcountC.beverage ) group by BevcountC.beverage ;  
+
+>>>> 	select sum(count) from BRANCH1branchcount;
